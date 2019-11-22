@@ -578,33 +578,33 @@ NAN_MODULE_INIT(init) {
   Local<Object> smap = Nan::New<v8::Object>();
   // fixed sizes
 #define SET_SIZEOF(name, type) \
-  smap->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>( #name ).ToLocalChecked(), Nan::New<v8::Uint32>(static_cast<uint32_t>(sizeof(type))));
-  SET_SIZEOF(int8, int8_t);
-  SET_SIZEOF(uint8, uint8_t);
-  SET_SIZEOF(int16, int16_t);
-  SET_SIZEOF(uint16, uint16_t);
-  SET_SIZEOF(int32, int32_t);
-  SET_SIZEOF(uint32, uint32_t);
-  SET_SIZEOF(int64, int64_t);
-  SET_SIZEOF(uint64, uint64_t);
-  SET_SIZEOF(float, float);
-  SET_SIZEOF(double, double);
+  (void) smap->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>( #name ).ToLocalChecked(), Nan::New<v8::Uint32>(static_cast<uint32_t>(sizeof(type))));
+  (void) SET_SIZEOF(int8, int8_t);
+  (void) SET_SIZEOF(uint8, uint8_t);
+  (void) SET_SIZEOF(int16, int16_t);
+  (void) SET_SIZEOF(uint16, uint16_t);
+  (void) SET_SIZEOF(int32, int32_t);
+  (void) SET_SIZEOF(uint32, uint32_t);
+  (void) SET_SIZEOF(int64, int64_t);
+  (void) SET_SIZEOF(uint64, uint64_t);
+  (void) SET_SIZEOF(float, float);
+  (void) SET_SIZEOF(double, double);
   // (potentially) variable sizes
-  SET_SIZEOF(bool, bool);
-  SET_SIZEOF(byte, unsigned char);
-  SET_SIZEOF(char, char);
-  SET_SIZEOF(uchar, unsigned char);
-  SET_SIZEOF(short, short);
-  SET_SIZEOF(ushort, unsigned short);
-  SET_SIZEOF(int, int);
-  SET_SIZEOF(uint, unsigned int);
-  SET_SIZEOF(long, long);
-  SET_SIZEOF(ulong, unsigned long);
-  SET_SIZEOF(longlong, long long);
-  SET_SIZEOF(ulonglong, unsigned long long);
-  SET_SIZEOF(pointer, char *);
-  SET_SIZEOF(size_t, size_t);
-  SET_SIZEOF(wchar_t, wchar_t);
+  (void) SET_SIZEOF(bool, bool);
+  (void) SET_SIZEOF(byte, unsigned char);
+  (void) SET_SIZEOF(char, char);
+  (void) SET_SIZEOF(uchar, unsigned char);
+  (void) SET_SIZEOF(short, short);
+  (void) SET_SIZEOF(ushort, unsigned short);
+  (void) SET_SIZEOF(int, int);
+  (void) SET_SIZEOF(uint, unsigned int);
+  (void) SET_SIZEOF(long, long);
+  (void) SET_SIZEOF(ulong, unsigned long);
+  (void) SET_SIZEOF(longlong, long long);
+  (void) SET_SIZEOF(ulonglong, unsigned long long);
+  (void) SET_SIZEOF(pointer, char *);
+  (void) SET_SIZEOF(size_t, size_t);
+  (void) SET_SIZEOF(wchar_t, wchar_t);
   // size of a Persistent handle to a JS object
   SET_SIZEOF(Object, Nan::Persistent<Object>);
 
@@ -612,7 +612,7 @@ NAN_MODULE_INIT(init) {
   Local<Object> amap = Nan::New<v8::Object>();
 #define SET_ALIGNOF(name, type) \
   struct s_##name { type a; }; \
-  amap->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>( #name ).ToLocalChecked(), Nan::New<v8::Uint32>(static_cast<uint32_t>(__alignof__(struct s_##name))));
+  (void) amap->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>( #name ).ToLocalChecked(), Nan::New<v8::Uint32>(static_cast<uint32_t>(__alignof__(struct s_##name))));
   SET_ALIGNOF(int8, int8_t);
   SET_ALIGNOF(uint8, uint8_t);
   SET_ALIGNOF(int16, int16_t);
@@ -640,10 +640,10 @@ NAN_MODULE_INIT(init) {
   SET_ALIGNOF(Object, Nan::Persistent<Object>);
 
   // exports
-  target->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>("sizeof").ToLocalChecked(), smap);
-  target->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>("alignof").ToLocalChecked(), amap);
-  Nan::ForceSet(target, Nan::New<v8::String>("endianness").ToLocalChecked(), Nan::New<v8::String>(CheckEndianness()).ToLocalChecked(), static_cast<PropertyAttribute>(ReadOnly|DontDelete));
-  Nan::ForceSet(target, Nan::New<v8::String>("NULL").ToLocalChecked(), WrapNullPointer(), static_cast<PropertyAttribute>(ReadOnly|DontDelete));
+  (void) target->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>("sizeof").ToLocalChecked(), smap);
+  (void) target->Set(v8::Isolate::GetCurrent()->GetCurrentContext(), Nan::New<v8::String>("alignof").ToLocalChecked(), amap);
+  Nan::DefineOwnProperty(target, Nan::New<v8::String>("endianness").ToLocalChecked(), Nan::New<v8::String>(CheckEndianness()).ToLocalChecked(), static_cast<PropertyAttribute>(ReadOnly|DontDelete));
+  Nan::DefineOwnProperty(target, Nan::New<v8::String>("NULL").ToLocalChecked(), WrapNullPointer(), static_cast<PropertyAttribute>(ReadOnly|DontDelete));
   Nan::SetMethod(target, "address", Address);
   Nan::SetMethod(target, "hexAddress", HexAddress);
   Nan::SetMethod(target, "isNull", IsNull);
